@@ -1,0 +1,7 @@
+../core/build/sth_ovp_arm9.bin
+../guests/guest1/build/guest1.bin
+0x100000
+../guests/guest2/build/guest2.bin
+0x400000
+out.bin
+

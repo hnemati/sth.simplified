@@ -1,0 +1,5 @@
+# Target configuration
+#PLATFORM ?=ovp_arm9
+#PLATFORM ?=u8500_ref
+PLATFORM ?=realview_a8
+SOFTWARE ?=guest*

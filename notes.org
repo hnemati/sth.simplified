@@ -1,0 +1,46 @@
+Notes on the hypervisor
+
+* Handlers
+C Handlers of exceptions are all in the file
+[[file:core/hypervisor/handlers.c::include%20hw%20h][handlers.c]]
+
+* Virtual Machine
+The curr_vm is a global variable defined into
+[[file:core/hypervisor/init.c::virtual_machine][init.c]]
+The type is "virtual_machine *" a linked list of machines
+
+The Virtual machine type is define into
+[[file:core/hypervisor/hyper_mode_state.h::typedef%20struct%20virtual_machine_][hyper_mode_state.h]]
+
+The virtual machine holds a set of mode_states (in our cases
+TASK/MESSAGE) defined into the same file and a pointer to the current
+mode_state. In holds the context that is defined into
+[[file:core/hw/cpu/arm/arm_common/arm_common.h::typedef%20struct%20context_][arm_common.h]]
+
+Each WM has HC_NGUESTMODES ([[file:core/hypervisor/guest_config/hyper_config.h::HC_NGUESTMODES][hyper_config.h]]) modes. In our case 2
+HC_GM_INTERRUPT and HC_GM_TASK
+
+At bootstrap the virtual machines are configured
+according with the configuration minimal_config
+[[file:core/hypervisor/guest_config/minimal_config.c::hc_config%20minimal_config%202][minimal_config.c]]
+
+Notice that the domains for the guest modes are copied by
+the configuration
+
+
+Note: cpu_interrupt_user_set defined into
+[[file:core/hw/cpu/arm/arm_common/arm_utils.S::cpu_interrupt_user_set]]
+
+* Boot
+the initialization is performed by 
+[[file:core/hypervisor/init.c::virtual_machine][init.c]]
+** Page table
+The code in memory_init initialize the page table
+The configuration  is obtained by iterating on the argument of the
+function
+mem_padr_lookup( i << 20) that is defined in
+[[file:core/hypervisor/mem.c::memory_layout_entry%20mem_padr_lookup%20uint32_t%20padr][memory.c]]
+This function use a parameter memory_padr_layout
+that configure the boot memory page table. It is board dependent and
+defined in 
+[[file:core/hw/board/ovp_arm9/board_mem.c::memory_layout_entry%20memory_padr_layout][board_mem.c]]

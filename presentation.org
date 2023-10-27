@@ -1,0 +1,63 @@
+* Configurations
+- [[file:core/hw/board/ovp_arm9/board_mem.c::memory_layout_entry%20memory_padr_layout][file:core/hw/board/ovp_arm9/board_mem.c::memory_layout_entry memory_padr_layout]]
+  Describes the page table settings for two Guests
+
+- [[file:core/hypervisor/guest_config/hyper_config.h::define%20HC_NGUESTMODES%202][file:core/hypervisor/guest_config/hyper_config.h::define HC_NGUESTMODES 2]]
+  Two possible modes for each guest
+
+- [[file:core/hypervisor/guest_config/minimal_config.c::define%20HC_DOM_HYPER%200][file:core/hypervisor/guest_config/minimal_config.c::define
+  HC_DOM_HYPER 0]]
+  - Domains for hypervisor and guest memories
+  - Guests execute in domain 00-01-01 or 01-00-01
+
+- [[file:core/hypervisor/guest_config/minimal_config.c::static%20const%20hc_guest_mode][file:core/hypervisor/guest_config/minimal_config.c::static const
+  hc_guest_mode]]
+
+  - the 4 possible mode settings
+
+  - modes for the same guest share the same domain_ac
+
+- [[file:core/hypervisor/guest_config/minimal_config.c::hc_config%20minimal_config%202][file:core/hypervisor/guest_config/minimal_config.c::hc_config
+  minimal_config 2]]
+
+  - The configuration for two guests
+
+  - Each guest starts in TASK mode
+
+  - Each mode hown a specific initial stack pointer
+
+  - The interrupt condif define also the message handler address
+
+* Hypervisor S7tate
+[[file:core/hypervisor/hyper_mode_state.h::typedef%20struct%20virtual_machine_][file:core/hypervisor/hyper_mode_state.h::typedef struct
+virtual_machine_]]
+Each virtual machine has a pending message and a flag representing if
+the message box is not empty
+* SW handler
+[[file:core/hypervisor/handlers.c::void%20swi_handler%20uint32_t%20param0%20void%20param%20uint32_t%20hypercall_number][file:core/hypervisor/handlers.c::void swi_handler uint32_t param0 void
+param uint32_t hypercall_number]]
+
+Only two possible hypercalls
+
+* IRQ handler
+[[file:core/hypervisor/handlers.c::void%20irq_handler][file:core/hypervisor/handlers.c::void irq_handler]]
+
+- Two possible behavior according to:
+
+  - Reception of message if there is a pending message and the
+    suspended guest is in TASK mode
+    1) The guest is restored with the INTERRUPT context
+    2) The register r0 is owerritten with the message content
+    3) The stack pointer if owerritten with the default interrupt stack pointer
+    4) The program counter is overritten with the message handler address
+
+  - Otherwise restore the current context of the suspended guest
+
+  - In both cases the MMU domain is changed
+
+* Bootstrap
+- [[file:core/hypervisor/init.c::void%20memory_init][file:core/hypervisor/init.c::void memory_init]]
+  Initialization of the memory
+- [[file:core/hypervisor/init.c::void%20guests_init][file:core/hypervisor/init.c::void guests_init]]
+  Initialization of both guests
+

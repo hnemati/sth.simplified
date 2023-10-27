@@ -1,0 +1,25 @@
+arm-none-eabi-gdb sth_ovp_arm9.elf
+
+* Show the list of source directories
+  show directories
+* Show source code that define a symbol
+  list virtual_machine
+  list irq_handler
+  list impl_irq
+* Print the type of a symbol
+  ptype vm_0
+* Print a type
+ptype virtual_machine
+
+print (int)&(((virtual_machine*)0)->id)
+ptype ((virtual_machine*)0)->id
+print sizeof(((virtual_machine*)0)->id)
+
+print (int)&(((virtual_machine*)0)->interrupted_mode)
+ptype ((virtual_machine*)0)->interrupted_mode
+print sizeof(((virtual_machine*)0)->interrupted_mode)
+
+print (int)&(((virtual_machine*)0)->mode_states)
+ptype ((virtual_machine*)0)->mode_states
+print sizeof(((virtual_machine*)0)->mode_states)
+print sizeof(hyper_mode_state)

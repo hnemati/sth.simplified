@@ -1,0 +1,79 @@
+core/hypervisor/init.c:			curr_vm->mode_states[i].mode_config = 0;
+core/hypervisor/init.c:			curr_vm->mode_states[i].mode_config = (curr_vm->config->guest_modes[i]);
+core/hypervisor/init.c:		curr_vm->current_guest_mode = MODE_NONE;
+core/hypervisor/init.c:		curr_vm->interrupted_mode = MODE_NONE;
+core/hypervisor/init.c:		curr_vm->guest_tick_handler = 0;
+core/hypervisor/init.c:		curr_vm->current_mode_state = 0;
+core/hypervisor/init.c:		curr_vm->mode_states[HC_GM_TASK].ctx.pc = (uint32_t)curr_vm->config->guest_entry_point;
+core/hypervisor/init.c:		curr_vm->mode_states[HC_GM_TASK].ctx.sp = curr_vm->config->guest_entry_sp;
+core/hypervisor/init.c:		curr_vm->mode_states[HC_GM_TASK].ctx.psr= 0xD0; //interrupts off
+core/hypervisor/init.c:		//curr_vm->guest_tick_handler = curr_vm->config->interrupt_config.tick_handler;
+core/hypervisor/init.c:		curr_vm = curr_vm->next;
+core/hypervisor/init.c:	cpu_context_initial_set(&curr_vm->mode_states[HC_GM_TASK].ctx);
+core/hypervisor/init.c:	SET_USER_SP(curr_vm->config->guest_entry_sp);
+core/hypervisor/init.c:	asm ("mov LR, %0      \n\t" :: "r"(curr_vm->config->guest_entry_point));
+core/hypervisor/.svn/text-base/hypercalls.c.svn-base:	curr_vm->current_mode_state = &curr_vm->mode_states[mode];
+core/hypervisor/.svn/text-base/hypercalls.c.svn-base:	cpu_context_current_set(&(curr_vm->current_mode_state->ctx));
+core/hypervisor/.svn/text-base/hypercalls.c.svn-base:	curr_vm->current_guest_mode = mode;
+core/hypervisor/.svn/text-base/hypercalls.c.svn-base:	domac = curr_vm->current_mode_state->mode_config->domain_ac;
+core/hypervisor/.svn/text-base/hypercalls.c.svn-base:	curr_vm->guest_tick_handler	= (void*)args->guest_tick_handler;
+core/hypervisor/.svn/text-base/hypercalls.c.svn-base:	if (curr_vm->current_guest_mode != curr_vm->config->interrupt_config.interrupt_mode) {
+core/hypervisor/.svn/text-base/hypercalls.c.svn-base:	if (curr_vm->interrupted_mode >= HC_NGUESTMODES) {
+core/hypervisor/.svn/text-base/hypercalls.c.svn-base:	if (curr_vm->interrupted_mode == curr_vm->current_guest_mode) {
+core/hypervisor/.svn/text-base/hypercalls.c.svn-base:	change_guest_mode(curr_vm->interrupted_mode);
+core/hypervisor/.svn/text-base/hypercalls.c.svn-base:	curr_vm->interrupted_mode = MODE_NONE;
+core/hypervisor/.svn/text-base/hypercalls.c.svn-base:	if (!(curr_vm->current_mode_state->mode_config->set_mode_contexts & (1 << args->mode)))
+core/hypervisor/.svn/text-base/hypercalls.c.svn-base:		printf("setModeContexts:%d", curr_vm->current_mode_state->mode_config->set_mode_contexts);
+core/hypervisor/.svn/text-base/hypercalls.c.svn-base:	curr_vm->mode_states[args->mode].ctx = *(args->ctx);
+core/hypervisor/.svn/text-base/hypercalls.c.svn-base:	if (!(curr_vm->current_mode_state->mode_config->get_mode_contexts & (1 << args->mode)))
+core/hypervisor/.svn/text-base/hypercalls.c.svn-base:	*(args->ctx) = curr_vm->mode_states[args->mode].ctx;
+core/hypervisor/.svn/text-base/hypercalls.c.svn-base:	uint32_t addr = (curr_vm->current_mode_state->ctx.pc -4);
+core/hypervisor/.svn/text-base/handlers.c.svn-base:	uint32_t capabilities = curr_vm->current_mode_state->mode_config->capabilities;
+core/hypervisor/.svn/text-base/handlers.c.svn-base:	curr_vm->interrupted_mode = curr_vm->current_guest_mode;
+core/hypervisor/.svn/text-base/handlers.c.svn-base:	curr_vm= curr_vm->next;
+core/hypervisor/.svn/text-base/handlers.c.svn-base:	change_guest_mode(curr_vm->config->interrupt_config.interrupt_mode);
+core/hypervisor/.svn/text-base/handlers.c.svn-base:	curr_vm->current_mode_state->ctx.pc = (uint32_t)curr_vm->guest_tick_handler;
+core/hypervisor/.svn/text-base/handlers.c.svn-base:	curr_vm->current_mode_state->ctx.psr = psr;
+core/hypervisor/.svn/text-base/handlers.c.svn-base:	curr_vm->current_mode_state->ctx.sp = curr_vm->config->interrupt_config.sp;
+core/hypervisor/.svn/text-base/init.c.svn-base:			curr_vm->mode_states[i].mode_config = 0;
+core/hypervisor/.svn/text-base/init.c.svn-base:			curr_vm->mode_states[i].mode_config = (curr_vm->config->guest_modes[i]);
+core/hypervisor/.svn/text-base/init.c.svn-base:		curr_vm->current_guest_mode = MODE_NONE;
+core/hypervisor/.svn/text-base/init.c.svn-base:		curr_vm->interrupted_mode = MODE_NONE;
+core/hypervisor/.svn/text-base/init.c.svn-base:		curr_vm->guest_tick_handler = 0;
+core/hypervisor/.svn/text-base/init.c.svn-base:		curr_vm->current_mode_state = 0;
+core/hypervisor/.svn/text-base/init.c.svn-base:		curr_vm->mode_states[HC_GM_TASK].ctx.pc = (uint32_t)curr_vm->config->guest_entry_point;
+core/hypervisor/.svn/text-base/init.c.svn-base:		curr_vm->mode_states[HC_GM_TASK].ctx.sp = curr_vm->config->guest_entry_sp;
+core/hypervisor/.svn/text-base/init.c.svn-base:		curr_vm->mode_states[HC_GM_TASK].ctx.psr= 0xD0; //interrupts off
+core/hypervisor/.svn/text-base/init.c.svn-base:		//curr_vm->guest_tick_handler = curr_vm->config->interrupt_config.tick_handler;
+core/hypervisor/.svn/text-base/init.c.svn-base:		curr_vm = curr_vm->next;
+core/hypervisor/.svn/text-base/init.c.svn-base:	cpu_context_initial_set(&curr_vm->mode_states[HC_GM_TASK].ctx);
+core/hypervisor/.svn/text-base/init.c.svn-base:	SET_USER_SP(curr_vm->config->guest_entry_sp);
+core/hypervisor/.svn/text-base/init.c.svn-base:	asm ("mov LR, %0      \n\t" :: "r"(curr_vm->config->guest_entry_point));
+core/hypervisor/handlers.c:	uint32_t capabilities = curr_vm->current_mode_state->mode_config->capabilities;
+core/hypervisor/handlers.c:  if (!curr_vm->current_guest_mode == INTERRUPTIBLE)
+core/hypervisor/handlers.c:	change_guest_mode(curr_vm->config->interrupt_config.interrupt_mode);
+core/hypervisor/handlers.c:	curr_vm->current_mode_state->ctx.pc = (uint32_t)curr_vm->guest_tick_handler;
+core/hypervisor/handlers.c:	curr_vm->current_mode_state->ctx.psr = psr;
+core/hypervisor/handlers.c:	curr_vm->current_mode_state->ctx.sp = curr_vm->config->interrupt_config.sp; 
+core/hypervisor/handlers.c:	curr_vm->interrupted_mode = curr_vm->current_guest_mode;
+core/hypervisor/handlers.c:	curr_vm= curr_vm->next;
+core/hypervisor/handlers.c:	change_guest_mode(curr_vm->config->interrupt_config.interrupt_mode);
+core/hypervisor/handlers.c:	curr_vm->current_mode_state->ctx.pc = (uint32_t)curr_vm->guest_tick_handler;
+core/hypervisor/handlers.c:	curr_vm->current_mode_state->ctx.psr = psr;
+core/hypervisor/handlers.c:	curr_vm->current_mode_state->ctx.sp = curr_vm->config->interrupt_config.sp;
+core/hypervisor/hypercalls.c:	curr_vm->current_mode_state = &curr_vm->mode_states[mode];
+core/hypervisor/hypercalls.c:	cpu_context_current_set(&(curr_vm->current_mode_state->ctx));
+core/hypervisor/hypercalls.c:	curr_vm->current_guest_mode = mode;
+core/hypervisor/hypercalls.c:	domac = curr_vm->current_mode_state->mode_config->domain_ac;
+core/hypervisor/hypercalls.c:	curr_vm->guest_tick_handler	= (void*)args->guest_tick_handler;
+core/hypervisor/hypercalls.c:	if (curr_vm->current_guest_mode != curr_vm->config->interrupt_config.interrupt_mode) {
+core/hypervisor/hypercalls.c:	if (curr_vm->interrupted_mode >= HC_NGUESTMODES) {
+core/hypervisor/hypercalls.c:	if (curr_vm->interrupted_mode == curr_vm->current_guest_mode) {
+core/hypervisor/hypercalls.c:	change_guest_mode(curr_vm->interrupted_mode);
+core/hypervisor/hypercalls.c:	curr_vm->interrupted_mode = MODE_NONE;
+core/hypervisor/hypercalls.c:	if (!(curr_vm->current_mode_state->mode_config->set_mode_contexts & (1 << args->mode)))
+core/hypervisor/hypercalls.c:		printf("setModeContexts:%d", curr_vm->current_mode_state->mode_config->set_mode_contexts);
+core/hypervisor/hypercalls.c:	curr_vm->mode_states[args->mode].ctx = *(args->ctx);
+core/hypervisor/hypercalls.c:	if (!(curr_vm->current_mode_state->mode_config->get_mode_contexts & (1 << args->mode)))
+core/hypervisor/hypercalls.c:	*(args->ctx) = curr_vm->mode_states[args->mode].ctx;
+core/hypervisor/hypercalls.c:	uint32_t addr = (curr_vm->current_mode_state->ctx.pc -4);
